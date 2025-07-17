@@ -21,7 +21,7 @@ public class CounselorForm extends javax.swing.JFrame {
     
     public CounselorForm() {
         initComponents();
-        loadCounselors();
+        // loadCounselors();
     }
 
     /**
@@ -50,16 +50,16 @@ public class CounselorForm extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(130, 130, 130)
+                .addGap(137, 137, 137)
                 .addComponent(jButton1)
-                .addContainerGap(195, Short.MAX_VALUE))
+                .addContainerGap(188, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(79, 79, 79)
+                .addGap(121, 121, 121)
                 .addComponent(jButton1)
-                .addContainerGap(198, Short.MAX_VALUE))
+                .addContainerGap(156, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

@@ -23,14 +23,15 @@ import View.MainNavigation.Feedback.EditFeedback;
 
 
 public class MainNavigation extends javax.swing.JFrame {
-    
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MainNavigation.class.getName());
-
-
     public MainNavigation() {
         initComponents();
      
     }
+    
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MainNavigation.class.getName());
+
+
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
