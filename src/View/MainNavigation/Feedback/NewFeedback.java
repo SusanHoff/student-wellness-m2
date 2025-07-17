@@ -1,8 +1,10 @@
+package View.MainNavigation.Feedback;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package View.MainNavigation.Feedback;
+
 
 import View.MainNavigation.MainNavigation;
 
@@ -10,7 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import student.wellness.m2.DBConnection;
+import Database.DBConnection;
 import javax.swing.JOptionPane;
 import java.sql.SQLException;
 
@@ -57,7 +59,8 @@ public class NewFeedback extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("New Feedback Form");
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setText("Submit New Feedback");
 
         ReturnMain1.setText("Return Main");
         ReturnMain1.addActionListener(new java.awt.event.ActionListener() {
@@ -101,53 +104,51 @@ public class NewFeedback extends javax.swing.JFrame {
             }
         });
 
-        spinRate.setModel(new javax.swing.SpinnerNumberModel(1, 1, 5, 1));
+        spinRate.setModel(new javax.swing.SpinnerNumberModel(5, 1, 5, 1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(66, 66, 66)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnFeedbackClear)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel5)
+                        .addComponent(jLabel2)
+                        .addComponent(jLabel3)
+                        .addComponent(jLabel4)
+                        .addComponent(jLabel6)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(134, 134, 134)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(66, 66, 66)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnFeedbackClear)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel5)
-                                .addComponent(jLabel2)
-                                .addComponent(jLabel3)
-                                .addComponent(jLabel4)
-                                .addComponent(jLabel6)))
+                        .addGap(58, 58, 58)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(tfFeedbackID, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                                .addComponent(tfFeedbackSurname, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                                .addComponent(tfFeedbackName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(58, 58, 58)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(tfFeedbackID, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                                        .addComponent(tfFeedbackSurname, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                                        .addComponent(tfFeedbackName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(140, 140, 140)
-                                        .addComponent(ReturnMain1))
-                                    .addComponent(spinRate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(50, 50, 50)
-                                .addComponent(btnFeedbackSubmit)
-                                .addGap(170, 170, 170)))))
-                .addGap(19, 19, 19))
+                                .addGap(140, 140, 140)
+                                .addComponent(ReturnMain1))
+                            .addComponent(spinRate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(55, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(50, 50, 50)
+                        .addComponent(btnFeedbackSubmit)
+                        .addGap(189, 189, 189))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(57, 57, 57)
+                .addComponent(jLabel1)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(37, 37, 37)
+                .addGap(48, 48, 48)
                 .addComponent(jLabel1)
-                .addGap(29, 29, 29)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(tfFeedbackName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -168,7 +169,7 @@ public class NewFeedback extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
                             .addComponent(spinRate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ReturnMain1)
                     .addComponent(btnFeedbackClear)
@@ -200,23 +201,9 @@ public class NewFeedback extends javax.swing.JFrame {
         if (name.isEmpty() || surname.isEmpty() || studentID.isEmpty() || comment.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please fill in all fields.", "Validation Error", JOptionPane.WARNING_MESSAGE);
             return;
-        }
-
-        try (Connection conn = DBConnection.getConnection()) {
-            String sql = "INSERT INTO Feedback (StudentName, StudentSurname, StudentID, Comment, Rating) VALUES (?, ?, ?, ?, ?)";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, name);
-            stmt.setString(2, surname);
-            stmt.setString(3, studentID);
-            stmt.setString(4, comment);
-            stmt.setInt(5, rating);
-
-            stmt.executeUpdate();
-            JOptionPane.showMessageDialog(this, "Feedback submitted successfully.");
-            clearForm(); // Clear the form after submission
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Failed to submit feedback: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Thank you for submitting your application", "", JOptionPane.INFORMATION_MESSAGE);
+            return;
         }
     }//GEN-LAST:event_btnSubmitFeedback
 
@@ -226,7 +213,7 @@ public class NewFeedback extends javax.swing.JFrame {
         tfFeedbackSurname.setText("");
         tfFeedbackID.setText("");
         taFeedback.setText("");
-        spinRate.setValue(1);
+        spinRate.setValue(5);
 }
     
  

@@ -5,6 +5,14 @@
 package View.MainNavigation.Feedback;
 
 import View.MainNavigation.MainNavigation;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import Database.DBConnection;
+
 
 /**
  *
@@ -19,6 +27,7 @@ public class ViewFeedback extends javax.swing.JFrame {
      */
     public ViewFeedback() {
         initComponents();
+        loadFeedbackTable();
     }
 
     /**
@@ -37,7 +46,8 @@ public class ViewFeedback extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("View Feedback Form");
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setText("View Submitted Feedback");
 
         ReturnMain1.setText("Return Main");
         ReturnMain1.addActionListener(new java.awt.event.ActionListener() {
@@ -54,9 +64,17 @@ public class ViewFeedback extends javax.swing.JFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "Student ID", "Name", "Surname", "Feedback", "Rating"
+                "Student ID", "Name", "Surname", "Rating", "Feedback"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(tlFeedbackView);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -64,27 +82,24 @@ public class ViewFeedback extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap(71, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(84, 84, 84)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(85, 85, 85)
-                        .addComponent(ReturnMain1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(248, 248, 248)
-                        .addComponent(jLabel1)))
-                .addContainerGap(31, Short.MAX_VALUE))
+                    .addComponent(jLabel1)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(ReturnMain1)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 610, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 66, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(49, 49, 49)
+                .addGap(34, 34, 34)
                 .addComponent(jLabel1)
-                .addGap(35, 35, 35)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(ReturnMain1)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(ReturnMain1)
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         pack();
@@ -97,6 +112,32 @@ public class ViewFeedback extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_ReturnMain
 
+    private void loadFeedbackTable() {
+    DefaultTableModel model = (DefaultTableModel) tlFeedbackView.getModel();
+    model.setRowCount(0); // clear existing rows
+
+    String sql = "SELECT student_id, name, surname, rating, feedback FROM Feedback";
+
+    try (Connection conn = DBConnection.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+
+        while (rs.next()) {
+            int studentId = rs.getInt("student_id");
+            String name = rs.getString("name");
+            String surname = rs.getString("surname");
+            int rating = rs.getInt("rating");
+            String feedback = rs.getString("feedback");
+
+            model.addRow(new Object[]{studentId, name, surname, rating, feedback});
+        }
+
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Error loading feedback: " + e.getMessage());
+    }
+}
+
+    
     /**
      * @param args the command line arguments
      */

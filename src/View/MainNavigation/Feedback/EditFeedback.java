@@ -5,6 +5,13 @@
 package View.MainNavigation.Feedback;
 
 import View.MainNavigation.MainNavigation;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import Database.DBConnection;
+import javax.swing.JOptionPane;
+import java.sql.SQLException;
 
 /**
  *
@@ -36,19 +43,17 @@ public class EditFeedback extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         tfFeedbackIDSearch = new javax.swing.JTextField();
         btnEditAppointmentClear = new javax.swing.JButton();
-        btnEditAppointmentSubmit = new javax.swing.JButton();
+        btnEditAppointmentUpdate = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        taEditFeedback = new javax.swing.JTextArea();
+        taEditFeedbackEdit = new javax.swing.JTextArea();
         jLabel6 = new javax.swing.JLabel();
-        rbEdit1Star = new javax.swing.JRadioButton();
-        rbEdit2Star = new javax.swing.JRadioButton();
-        rbEdit3Star = new javax.swing.JRadioButton();
-        rbEdit4Star = new javax.swing.JRadioButton();
-        rbEdit5Star = new javax.swing.JRadioButton();
+        spinRateEdit = new javax.swing.JSpinner();
+        btnFeedbackSearch = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Edit Feedback Form");
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setText("Edit Submitted Feedback");
 
         ReturnMain1.setText("Return Main");
         ReturnMain1.addActionListener(new java.awt.event.ActionListener() {
@@ -64,29 +69,33 @@ public class EditFeedback extends javax.swing.JFrame {
         tfFeedbackIDSearch.setText("ID");
 
         btnEditAppointmentClear.setText("Clear");
-
-        btnEditAppointmentSubmit.setText("Submit");
-
-        taEditFeedback.setColumns(20);
-        taEditFeedback.setRows(5);
-        jScrollPane1.setViewportView(taEditFeedback);
-
-        jLabel6.setText("Please rate our service:");
-
-        rbEdit1Star.setText("1");
-        rbEdit1Star.addActionListener(new java.awt.event.ActionListener() {
+        btnEditAppointmentClear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rbEdit1StarActionPerformed(evt);
+                btnClearFeedbackEdit(evt);
             }
         });
 
-        rbEdit2Star.setText("2");
+        btnEditAppointmentUpdate.setText("Submit");
+        btnEditAppointmentUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateFeedback(evt);
+            }
+        });
 
-        rbEdit3Star.setText("3");
+        taEditFeedbackEdit.setColumns(20);
+        taEditFeedbackEdit.setRows(5);
+        jScrollPane1.setViewportView(taEditFeedbackEdit);
 
-        rbEdit4Star.setText("4");
+        jLabel6.setText("Please rate our service:");
 
-        rbEdit5Star.setText("5");
+        spinRateEdit.setModel(new javax.swing.SpinnerNumberModel(5, 1, 5, 1));
+
+        btnFeedbackSearch.setText("Search");
+        btnFeedbackSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFeedbackSearch(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -95,74 +104,64 @@ public class EditFeedback extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(84, 84, 84)
+                        .addComponent(btnEditAppointmentClear)
+                        .addGap(45, 45, 45)
+                        .addComponent(btnEditAppointmentUpdate)
+                        .addGap(62, 62, 62)
+                        .addComponent(ReturnMain1)
+                        .addGap(0, 25, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3))
-                        .addGap(44, 44, 44)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tfFeedbackIDSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(rbEdit1Star)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(rbEdit2Star)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(rbEdit3Star)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(rbEdit4Star)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(rbEdit5Star))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(132, 132, 132)
-                                .addComponent(jLabel1))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(84, 84, 84)
-                                .addComponent(btnEditAppointmentClear)
-                                .addGap(40, 40, 40)
-                                .addComponent(btnEditAppointmentSubmit)
-                                .addGap(67, 67, 67)
-                                .addComponent(ReturnMain1)))
-                        .addGap(0, 25, Short.MAX_VALUE)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3))
+                                .addGap(44, 44, 44)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(spinRateEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(tfFeedbackIDSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(btnFeedbackSearch))
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jLabel1))))
                 .addContainerGap(53, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(41, 41, 41)
+                .addGap(56, 56, 56)
                 .addComponent(jLabel1)
-                .addGap(33, 33, 33)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfFeedbackIDSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                    .addComponent(jLabel2)
+                    .addComponent(btnFeedbackSearch))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(rbEdit2Star)
-                        .addComponent(rbEdit1Star)
-                        .addComponent(rbEdit3Star)
-                        .addComponent(rbEdit4Star)
-                        .addComponent(rbEdit5Star))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel6)))
-                .addGap(30, 30, 30)
+                    .addComponent(jLabel3)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(spinRateEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEditAppointmentClear)
-                    .addComponent(btnEditAppointmentSubmit)
+                    .addComponent(btnEditAppointmentUpdate)
                     .addComponent(ReturnMain1))
-                .addContainerGap(85, Short.MAX_VALUE))
+                .addContainerGap(84, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+
+    
     private void ReturnMain(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReturnMain
         MainNavigation mainForm = new MainNavigation();
         mainForm.setVisible(true);
@@ -170,10 +169,43 @@ public class EditFeedback extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_ReturnMain
 
-    private void rbEdit1StarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbEdit1StarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rbEdit1StarActionPerformed
+    private void btnFeedbackSearch(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFeedbackSearch
+        String studentId = tfFeedbackIDSearch.getText().trim();
+        
+        if (studentId.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Please enter a student ID.", "Input Error", JOptionPane.ERROR_MESSAGE);
+        return;
+        }
+    }//GEN-LAST:event_btnFeedbackSearch
 
+    private void btnUpdateFeedback(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateFeedback
+        String studentId = tfFeedbackIDSearch.getText().trim();
+    String updatedFeedback = taEditFeedbackEdit.getText().trim();
+    int newRating = (Integer) spinRateEdit.getValue();
+
+    if (studentId.isEmpty() || updatedFeedback.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Please fill in all fields.", "Input Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }else {
+        JOptionPane.showMessageDialog(this, "Thank you for submitting your application", "", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+    }//GEN-LAST:event_btnUpdateFeedback
+
+    
+    private void clearForm(){
+        tfFeedbackIDSearch.setText("");
+        taEditFeedbackEdit.setText("");
+        spinRateEdit.setValue(5);
+    }
+    
+    private void btnClearFeedbackEdit(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearFeedbackEdit
+        clearForm();
+    }//GEN-LAST:event_btnClearFeedbackEdit
+
+    
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -202,18 +234,15 @@ public class EditFeedback extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ReturnMain1;
     private javax.swing.JButton btnEditAppointmentClear;
-    private javax.swing.JButton btnEditAppointmentSubmit;
+    private javax.swing.JButton btnEditAppointmentUpdate;
+    private javax.swing.JButton btnFeedbackSearch;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JRadioButton rbEdit1Star;
-    private javax.swing.JRadioButton rbEdit2Star;
-    private javax.swing.JRadioButton rbEdit3Star;
-    private javax.swing.JRadioButton rbEdit4Star;
-    private javax.swing.JRadioButton rbEdit5Star;
-    private javax.swing.JTextArea taEditFeedback;
+    private javax.swing.JSpinner spinRateEdit;
+    private javax.swing.JTextArea taEditFeedbackEdit;
     private javax.swing.JTextField tfFeedbackIDSearch;
     // End of variables declaration//GEN-END:variables
 }
