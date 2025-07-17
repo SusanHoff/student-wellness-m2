@@ -19,8 +19,7 @@ import View.CounselorForm;
 //import View.MainNavigation.Counsellor.EditCounsellor;
 // Feedback form imports
 import View.MainNavigation.Feedback.NewFeedback;
-import View.MainNavigation.Feedback.ViewFeedback;
-import View.MainNavigation.Feedback.EditFeedback;
+
 
 
 
@@ -329,14 +328,14 @@ public class MainNavigation extends javax.swing.JFrame {
     }//GEN-LAST:event_NewFeedback
 
     private void EditFeedback(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditFeedback
-        EditFeedback form = new EditFeedback();
+        NewFeedback form = new NewFeedback();
         form.setVisible(true);
         form.setLocationRelativeTo(null);
         this.dispose();
     }//GEN-LAST:event_EditFeedback
 
     private void ViewFeedback(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewFeedback
-        ViewFeedback form = new ViewFeedback();
+        NewFeedback form = new NewFeedback();
         form.setVisible(true);
         form.setLocationRelativeTo(null);
         this.dispose();

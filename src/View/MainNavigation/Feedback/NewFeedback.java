@@ -8,13 +8,10 @@ package View.MainNavigation.Feedback;
 
 import View.MainNavigation.MainNavigation;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import Database.DBConnection;
+
 import javax.swing.JOptionPane;
-import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -24,13 +21,61 @@ public class NewFeedback extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(NewFeedback.class.getName());
 
+    private static class Feedback {
+        String name;
+        String surname;
+        int studentId;
+        String comment;
+        int rating;
+
+    public Feedback(String name, String surname, int studentId, String comment, int rating) {
+        this.name = name;
+        this.surname = surname;
+        this.studentId = studentId;
+        this.comment = comment;
+        this.rating = rating;
+    }
+}
+    private java.util.List<Feedback> feedbackList = new java.util.ArrayList<>();
     /**
      * Creates new form NewFeedback
      */
     public NewFeedback() {
         initComponents();
-       
-    }
+
+        // Set the table model first
+        tbFeedbackDisplay.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                // start empty
+            },
+            new String [] {
+                "Name", "Surname", "ID", "Rating", "Feedback"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types[columnIndex];
+        }
+    });
+
+    // Add predefined feedback entries
+    feedbackList.add(new Feedback("Alice", "Smith", 1001, "Great session, very helpful!", 5));
+    feedbackList.add(new Feedback("Bob", "Johnson", 1002, "Could use more detailed advice.", 3));
+    feedbackList.add(new Feedback("Carla", "Brown", 1003, "Felt heard and understood.", 4));
+    feedbackList.add(new Feedback("Daniel", "Lee", 1004, "Very professional.", 5));
+    feedbackList.add(new Feedback("Eva", "Martinez", 1005, "It was okay, a bit rushed.", 3));
+    feedbackList.add(new Feedback("Frank", "White", 1006, "I didn't get much value.", 2));
+    feedbackList.add(new Feedback("Grace", "Kim", 1007, "Amazing experience!", 5));
+    feedbackList.add(new Feedback("Hassan", "Nguyen", 1008, "Neutral feelings.", 3));
+    feedbackList.add(new Feedback("Ivy", "Singh", 1009, "Felt comfortable opening up.", 4));
+    feedbackList.add(new Feedback("Jake", "Muller", 1010, "Wish I had more time.", 3));
+
+    // Now refresh the table to display feedbackList
+    refreshTable();
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -56,11 +101,14 @@ public class NewFeedback extends javax.swing.JFrame {
         btnFeedbackClear = new javax.swing.JButton();
         btnFeedbackSubmit = new javax.swing.JButton();
         spinRate = new javax.swing.JSpinner();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tbFeedbackDisplay = new javax.swing.JTable();
+        btnDeleteFeedback = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setText("Submit New Feedback");
+        jLabel1.setText("Feedback Management");
 
         ReturnMain1.setText("Return Main");
         ReturnMain1.addActionListener(new java.awt.event.ActionListener() {
@@ -106,49 +154,74 @@ public class NewFeedback extends javax.swing.JFrame {
 
         spinRate.setModel(new javax.swing.SpinnerNumberModel(5, 1, 5, 1));
 
+        tbFeedbackDisplay.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Name", "Surname", "ID", "Rating", "Feedback"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(tbFeedbackDisplay);
+
+        btnDeleteFeedback.setText("Delete entry");
+        btnDeleteFeedback.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteEntry(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(66, 66, 66)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnFeedbackClear)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel5)
-                        .addComponent(jLabel2)
-                        .addComponent(jLabel3)
-                        .addComponent(jLabel4)
-                        .addComponent(jLabel6)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(58, 58, 58)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(tfFeedbackID, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                                .addComponent(tfFeedbackSurname, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                                .addComponent(tfFeedbackName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(140, 140, 140)
-                                .addComponent(ReturnMain1))
-                            .addComponent(spinRate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(55, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
-                        .addComponent(btnFeedbackSubmit)
-                        .addGap(189, 189, 189))))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(57, 57, 57)
-                .addComponent(jLabel1)
-                .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(btnDeleteFeedback)
+                        .addGap(56, 56, 56)
+                        .addComponent(ReturnMain1))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 642, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnFeedbackClear)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnFeedbackSubmit))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jLabel1)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel5)
+                                .addComponent(jLabel2)
+                                .addComponent(jLabel3)
+                                .addComponent(jLabel4)
+                                .addComponent(jLabel6))
+                            .addGap(30, 30, 30)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(tfFeedbackID, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(tfFeedbackSurname, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(tfFeedbackName, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(spinRate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(57, 70, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(48, 48, 48)
+                .addGap(24, 24, 24)
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
+                .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(tfFeedbackName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -162,24 +235,50 @@ public class NewFeedback extends javax.swing.JFrame {
                     .addComponent(tfFeedbackID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(104, 104, 104)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
                             .addComponent(spinRate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnFeedbackSubmit)
+                    .addComponent(btnFeedbackClear))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ReturnMain1)
-                    .addComponent(btnFeedbackClear)
-                    .addComponent(btnFeedbackSubmit))
-                .addGap(24, 24, 24))
+                    .addComponent(btnDeleteFeedback))
+                .addGap(50, 50, 50))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+  
+    private void refreshTable() {
+        DefaultTableModel model = (DefaultTableModel) tbFeedbackDisplay.getModel();
+        model.setRowCount(0); // Clear all existing rows
+        for (Feedback fb : feedbackList) {
+            model.addRow(new Object[]{fb.name, fb.surname, fb.studentId, fb.rating, fb.comment});
+        }
+    }
+    
+    private void addFeedbackToTable(Feedback fb) {
+    javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) tbFeedbackDisplay.getModel();
+    model.addRow(new Object[]{fb.name, fb.surname, fb.studentId, fb.rating, fb.comment});
+}
 
+    private void clearForm() {
+        tfFeedbackName.setText("");
+        tfFeedbackSurname.setText("");
+        tfFeedbackID.setText("");
+        taFeedback.setText("");
+        spinRate.setValue(1);
+}
+    
     private void ReturnMain(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReturnMain
         MainNavigation mainForm = new MainNavigation();
         mainForm.setVisible(true);
@@ -190,33 +289,56 @@ public class NewFeedback extends javax.swing.JFrame {
     private void btnClearFeedback(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearFeedback
         clearForm();
     }//GEN-LAST:event_btnClearFeedback
-
+  
     private void btnSubmitFeedback(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitFeedback
         String name = tfFeedbackName.getText().trim();
         String surname = tfFeedbackSurname.getText().trim();
-        String studentID = tfFeedbackID.getText().trim();
+        String idText = tfFeedbackID.getText().trim();
         String comment = taFeedback.getText().trim();
         int rating = (int) spinRate.getValue();
 
-        if (name.isEmpty() || surname.isEmpty() || studentID.isEmpty() || comment.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please fill in all fields.", "Validation Error", JOptionPane.WARNING_MESSAGE);
-            return;
-        } else {
-            JOptionPane.showMessageDialog(this, "Thank you for submitting your application", "", JOptionPane.INFORMATION_MESSAGE);
+        if (name.isEmpty() || surname.isEmpty() || idText.isEmpty() || comment.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Please fill in all fields.");
             return;
         }
+
+        int studentId;
+        try {
+            studentId = Integer.parseInt(idText);
+        } catch (NumberFormatException e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Invalid student ID.");
+            return;
+        }
+    
+        // Check for duplicate ID before adding
+        for (Feedback fb : feedbackList) {
+            if (fb.studentId == studentId) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Student ID already exists. Please enter a unique ID.");
+                return;  // Stop adding duplicate
+            }
+        }
+
+    Feedback fb = new Feedback(name, surname, studentId, comment, rating);
+    feedbackList.add(fb);
+    addFeedbackToTable(fb);
+    javax.swing.JOptionPane.showMessageDialog(this, "Feedback submitted successfully!");
+    clearForm();
     }//GEN-LAST:event_btnSubmitFeedback
 
-    private void clearForm() {
-        // Clears all input fields in New Feedback Form
-        tfFeedbackName.setText("");
-        tfFeedbackSurname.setText("");
-        tfFeedbackID.setText("");
-        taFeedback.setText("");
-        spinRate.setValue(5);
-}
+    private void btnDeleteEntry(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteEntry
+        int selectedRow = tbFeedbackDisplay.getSelectedRow();
+        System.out.println("Selected Row: " + selectedRow);
+        if (selectedRow >= 0) {
+            feedbackList.remove(selectedRow);
+            refreshTable();
+          JOptionPane.showMessageDialog(this, "Entry deleted.");
+        } else {
+         JOptionPane.showMessageDialog(this, "Please select a feedback entry to delete.");
+        }
     
- 
+    }//GEN-LAST:event_btnDeleteEntry
+
+   
     /**
      * @param args the command line arguments
      */
@@ -238,12 +360,12 @@ public class NewFeedback extends javax.swing.JFrame {
         }
         //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new NewFeedback().setVisible(true));
+       
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ReturnMain1;
+    private javax.swing.JButton btnDeleteFeedback;
     private javax.swing.JButton btnFeedbackClear;
     private javax.swing.JButton btnFeedbackSubmit;
     private javax.swing.JLabel jLabel1;
@@ -253,8 +375,10 @@ public class NewFeedback extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSpinner spinRate;
     private javax.swing.JTextArea taFeedback;
+    private javax.swing.JTable tbFeedbackDisplay;
     private javax.swing.JTextField tfFeedbackID;
     private javax.swing.JTextField tfFeedbackName;
     private javax.swing.JTextField tfFeedbackSurname;
