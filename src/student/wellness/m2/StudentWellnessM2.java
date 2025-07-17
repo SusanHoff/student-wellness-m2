@@ -8,13 +8,17 @@ package student.wellness.m2;
  *
  * @author mabuz
  */
+
+import View.MainNavigation.MainNavigation;
+
 public class StudentWellnessM2 {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        java.awt.EventQueue.invokeLater(() -> {
+            new MainNavigation().setVisible(true);
+        });
     }
-    
 }

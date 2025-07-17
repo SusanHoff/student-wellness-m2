@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Controller;
 
 /**
@@ -17,7 +13,7 @@ import java.util.List;
 public class CounselorController {
   private CounselorDAO dao = new CounselorDAO();
 
-    public void addCounselor(int id, String name, String surname, String email, String phone,
+    public void addCounselor(String id, String name, String surname, String email, String phone,
                              String password, String specialisation, String available) {
         try {
             Counselor c = new Counselor(id, name, surname, email, phone, password, specialisation, available);
@@ -27,7 +23,7 @@ public class CounselorController {
         }
     }
 
-    public void updateCounselor(int id, String name, String surname, String email, String phone,
+    public void updateCounselor(String id, String name, String surname, String email, String phone,
                                 String password, String specialisation, String available) {
         try {
             Counselor c = new Counselor(id, name, surname, email, phone, password, specialisation, available);
@@ -37,7 +33,7 @@ public class CounselorController {
         }
     }
 
-    public void deleteCounselor(int id) {
+    public void deleteCounselor(String id) {
         try {
             dao.deleteCounselor(id);
         } catch (Exception e) {

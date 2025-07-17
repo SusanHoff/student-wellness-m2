@@ -1,4 +1,6 @@
-/student-wellness-m2/nbproject/private/
-/student-wellness-m2/build/
-/student-wellness-m2/dist/
-/dist/
+nbproject/private/
+build/
+dist/
+DerbyDB/
+derby.log
+*.class
