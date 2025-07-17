@@ -14,6 +14,10 @@ public class CounselorForm extends javax.swing.JFrame {
     CounselorController controller = new CounselorController();
         
     public CounselorForm() {
+
+        initComponents();
+        // loadCounselors();
+
         initComponents();    
         setTableColumnHeaders();
         
@@ -26,6 +30,7 @@ public class CounselorForm extends javax.swing.JFrame {
         }));
         
         loadCounselors();
+
     }
 
     /**
@@ -214,6 +219,11 @@ public class CounselorForm extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1)
             .addGroup(jPanel1Layout.createSequentialGroup()
+<<<<<<< HEAD
+                .addGap(137, 137, 137)
+                .addComponent(jButton1)
+                .addContainerGap(188, Short.MAX_VALUE))
+=======
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblID3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -263,10 +273,16 @@ public class CounselorForm extends javax.swing.JFrame {
                 .addGap(156, 156, 156)
                 .addComponent(lblHeading)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+>>>>>>> da3aeee8ec2a6fb2028ee97ce5890548a654e36c
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+<<<<<<< HEAD
+                .addGap(121, 121, 121)
+                .addComponent(jButton1)
+                .addContainerGap(156, Short.MAX_VALUE))
+=======
                 .addContainerGap()
                 .addComponent(lblHeading)
                 .addGap(32, 32, 32)
@@ -317,6 +333,7 @@ public class CounselorForm extends javax.swing.JFrame {
                     .addComponent(btnView))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
+>>>>>>> da3aeee8ec2a6fb2028ee97ce5890548a654e36c
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
