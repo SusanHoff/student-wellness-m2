@@ -3,4 +3,5 @@ build/
 dist/
 DerbyDB/
 derby.log
-*.class
+*.class"build/**/*.class" 
+"derby.log" 

@@ -8,12 +8,16 @@ import Controller.CounselorController;
 import Model.Counselor;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
-import Database.DBConnection;
+//import Database.DBConnection;
+
 
 public class CounselorForm extends javax.swing.JFrame {
 
     CounselorController controller = new CounselorController();
-        
+    
+    //to store user passwords temporarily, if they don't add a new one during update
+    private String currentPassword = "";
+ 
     public CounselorForm() {
 
         initComponents();    
@@ -27,7 +31,32 @@ public class CounselorForm extends javax.swing.JFrame {
         "Mon-Fri, 09:00-17:00", "Mon–Wed 08:00–16:00", "Tue–Fri 10:00–14:00", "Mon,Wed,Fri 12:00–18:00", "Mon–Thu 09:00–13:00","Weekends only"
         }));
         
-        loadCounselors();
+       loadCounselors();
+       
+       // Populate form fields when a table row is clicked
+        tblCounselors.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+        int row = tblCounselors.getSelectedRow();
+        if (row != -1) {
+            txtId.setText(tblCounselors.getValueAt(row, 0).toString());
+            txtName.setText(tblCounselors.getValueAt(row, 1).toString());
+            txtSurname.setText(tblCounselors.getValueAt(row, 2).toString());
+            txtEmail.setText(tblCounselors.getValueAt(row, 3).toString());
+            txtPhone.setText(tblCounselors.getValueAt(row, 4).toString());
+            txtPassword.setText(""); // Don't show password
+            String id = tblCounselors.getValueAt(row, 0).toString();
+            for (Counselor c : controller.getAllCounselors()) {
+            if (c.getId().equals(id)) {
+            currentPassword = c.getPassword(); // Store the actual password
+            break;
+    }
+}
+            comboSpecialisation.setSelectedItem(tblCounselors.getValueAt(row, 6).toString());
+            comboAvail.setSelectedItem(tblCounselors.getValueAt(row, 7).toString());
+        }
+    }
+});
+
 
     }
 
@@ -335,7 +364,51 @@ public class CounselorForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private boolean validateInput(boolean checkDuplicateId, boolean requirePassword) {
+    String id = txtId.getText().trim();
+    String name = txtName.getText().trim();
+    String surname = txtSurname.getText().trim();
+    String email = txtEmail.getText().trim();
+    String phone = txtPhone.getText().trim();
+    String password = new String(txtPassword.getPassword()).trim();
+
+    // Empty fields - except password and id for update
+    if (id.isEmpty() || name.isEmpty() || surname.isEmpty() || email.isEmpty()
+        || phone.isEmpty() || (requirePassword && password.isEmpty())) {
+    JOptionPane.showMessageDialog(this, "Please fill in all required fields.");
+    return false;
+}
+
+    // Email format
+    if (!email.contains("@")) {
+        JOptionPane.showMessageDialog(this, "Invalid email address.");
+        return false;
+    }
+
+    // Phone number numeric
+    if (!phone.matches("\\d+")) {
+        JOptionPane.showMessageDialog(this, "Phone number must be digits only.");
+        return false;
+    }
+
+    // Check for duplicate ID, unless current counselor is being updated
+    if (checkDuplicateId) {
+    for (Counselor c : controller.getAllCounselors()) {
+        if (c.getId().equals(id)) {
+            JOptionPane.showMessageDialog(this, "ID already exists. Please use a unique ID.");
+            return false;
+        }
+    }
+}
+
+    return true;
+}
+
+    
+    
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        if (!validateInput(true, true)) return;
+        
         String id = txtId.getText();
         String name = txtName.getText();
         String surname = txtSurname.getText();
@@ -346,34 +419,58 @@ public class CounselorForm extends javax.swing.JFrame {
         String available = comboAvail.getSelectedItem().toString();
 
         controller.addCounselor(id, name, surname, email, phone, password, specialisation, available);
-        loadCounselors();
+       loadCounselors();
+       JOptionPane.showMessageDialog(this, "Counselor added successfully.");
+
 
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-            int row = tblCounselors.getSelectedRow();
-            if (row != -1) {
-            String id = txtId.getText();
-            String name = txtName.getText();
-            String surname = txtSurname.getText();
-            String email = txtEmail.getText();
-            String phone = txtPhone.getText();
-            String password = new String(txtPassword.getPassword());
-            String specialisation = comboSpecialisation.getSelectedItem().toString();
-            String available = comboAvail.getSelectedItem().toString();
-            controller.updateCounselor(id, name, surname, email, phone, password, specialisation, available);
-            loadCounselors();
+    int row = tblCounselors.getSelectedRow();
+    if (row != -1) {
+        if (!validateInput(false, false)) return;
+
+        String id = txtId.getText();
+        String name = txtName.getText();
+        String surname = txtSurname.getText();
+        String email = txtEmail.getText();
+        String phone = txtPhone.getText();
+        String password = new String(txtPassword.getPassword());
+
+        // Reuse old password if the field is blank
+        if (password.isEmpty()) {
+            password = currentPassword;
         }
+
+        String specialisation = comboSpecialisation.getSelectedItem().toString();
+        String available = comboAvail.getSelectedItem().toString();
+
+        controller.updateCounselor(id, name, surname, email, phone, password, specialisation, available);
+        loadCounselors();
+        JOptionPane.showMessageDialog(this, "Counselor updated successfully.");
+    } else {
+        JOptionPane.showMessageDialog(this, "Please select a counselor to update.");
+    }
+        
 
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
          int row = tblCounselors.getSelectedRow();
-            if (row != -1) {
-            String id = tblCounselors.getValueAt(row, 0).toString();
+    if (row != -1) {
+        String id = tblCounselors.getValueAt(row, 0).toString();
+
+        int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this counselor?", 
+                                                    "Confirm Deletion", JOptionPane.YES_NO_OPTION);
+
+        if (confirm == JOptionPane.YES_OPTION) {
             controller.deleteCounselor(id);
             loadCounselors();
+            JOptionPane.showMessageDialog(this, "Counselor deleted successfully.");
         }
+    } else {
+        JOptionPane.showMessageDialog(this, "Please select a counselor to delete.");
+    }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
@@ -385,12 +482,13 @@ public class CounselorForm extends javax.swing.JFrame {
         txtPassword.setText("");
         comboSpecialisation.setSelectedIndex(0);
         comboAvail.setSelectedIndex(0);
+        currentPassword = "";
 
 
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewActionPerformed
-        loadCounselors();
+       loadCounselors();
         JOptionPane.showMessageDialog(this, "Counselor list refreshed.");
     }//GEN-LAST:event_btnViewActionPerformed
 
