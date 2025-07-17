@@ -1,12 +1,12 @@
 package Database;
 
-import Database.DBConnection;
 import java.sql.Connection;
 import java.sql.Statement;
 
 public class CreateTables {
 
-    public static void main(String[] args) {
+    //This can be called from anywhere to create tables - used on project startup.
+    public static void create() {
         System.out.println(">> CreateTables started...");
         try (Connection conn = DBConnection.getConnection()) {
             Statement stmt = conn.createStatement();
@@ -19,20 +19,19 @@ public class CreateTables {
                 System.out.println("Schema 'wellnessapp' might already exist. Continuing...");
             }
 
-            // Step 1: Drop tables in reverse order (to prevent FK constraint errors)
+            // Drop tables (reverse order - to not get FK conflicts)
             try { stmt.executeUpdate("DROP TABLE wellnessapp.feedback"); } 
-catch (Exception e) { System.out.println("Feedback table might not exist."); }
+            catch (Exception e) { System.out.println("Feedback table might not exist."); }
 
-try { stmt.executeUpdate("DROP TABLE wellnessapp.appointment"); } 
-catch (Exception e) { System.out.println("Appointment table might not exist."); }
+            try { stmt.executeUpdate("DROP TABLE wellnessapp.appointment"); } 
+            catch (Exception e) { System.out.println("Appointment table might not exist."); }
 
-try { stmt.executeUpdate("DROP TABLE wellnessapp.counselor"); } 
-catch (Exception e) { System.out.println("Counselor table might not exist."); }
-
+            try { stmt.executeUpdate("DROP TABLE wellnessapp.counselor"); } 
+            catch (Exception e) { System.out.println("Counselor table might not exist."); }
 
             System.out.println("Old tables dropped (if existed).");
 
-            // Step 2: Create counselor table with VARCHAR ID
+            // Create new tables
             stmt.executeUpdate("""
                 CREATE TABLE wellnessapp.counselor (
                     counselor_id VARCHAR(10) PRIMARY KEY,
@@ -46,7 +45,6 @@ catch (Exception e) { System.out.println("Counselor table might not exist."); }
                 )
             """);
 
-            // Step 3: Create appointment table with VARCHAR ID
             stmt.executeUpdate("""
                 CREATE TABLE wellnessapp.appointment (
                     appointment_id VARCHAR(10) PRIMARY KEY,
@@ -59,7 +57,6 @@ catch (Exception e) { System.out.println("Counselor table might not exist."); }
                 )
             """);
 
-            // Step 4: Create feedback table with VARCHAR foreign keys
             stmt.executeUpdate("""
                 CREATE TABLE wellnessapp.feedback (
                     feedback_id VARCHAR(10) PRIMARY KEY,
@@ -77,5 +74,10 @@ catch (Exception e) { System.out.println("Counselor table might not exist."); }
             System.err.println("Error creating tables:");
             e.printStackTrace();
         }
+    }
+
+    //to run the file directly for testing
+    public static void main(String[] args) {
+        create();
     }
 }

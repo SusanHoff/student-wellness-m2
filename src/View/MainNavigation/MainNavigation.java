@@ -12,13 +12,17 @@ import View.MainNavigation.Appointment.NewAppointment;
 import View.MainNavigation.Appointment.EditAppointment;
 import View.MainNavigation.Appointment.ViewAppointment;
 // Counsellor form imports
-import View.MainNavigation.Counsellor.NewCounsellor;
-import View.MainNavigation.Counsellor.ViewCounsellor;
-import View.MainNavigation.Counsellor.EditCounsellor;
+import View.CounselorForm;
+//These imports aren't necessary
+//import View.MainNavigation.Counsellor.NewCounsellor;
+//import View.MainNavigation.Counsellor.ViewCounsellor;
+//import View.MainNavigation.Counsellor.EditCounsellor;
 // Feedback form imports
 import View.MainNavigation.Feedback.NewFeedback;
 import View.MainNavigation.Feedback.ViewFeedback;
 import View.MainNavigation.Feedback.EditFeedback;
+
+
 
 
 
@@ -338,14 +342,14 @@ public class MainNavigation extends javax.swing.JFrame {
     }//GEN-LAST:event_ViewFeedback
 
     private void NewCounsellor(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewCounsellor
-        NewCounsellor form = new NewCounsellor();
+        CounselorForm form = new CounselorForm();
         form.setVisible(true);
         form.setLocationRelativeTo(null);
         this.dispose();
     }//GEN-LAST:event_NewCounsellor
 
     private void EditCounsellor(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditCounsellor
-        EditCounsellor form = new EditCounsellor();
+        CounselorForm form = new CounselorForm();
         form.setVisible(true);
         form.setLocationRelativeTo(null);
         this.dispose();
@@ -353,7 +357,7 @@ public class MainNavigation extends javax.swing.JFrame {
 
     //Counsellor actions for buttons to navigate to respective forms
     private void ViewCounsellor(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewCounsellor
-        ViewCounsellor form = new ViewCounsellor();
+        CounselorForm form = new CounselorForm();
         form.setVisible(true);
         form.setLocationRelativeTo(null);
         this.dispose();
