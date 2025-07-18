@@ -5,3 +5,4 @@ DerbyDB/
 derby.log
 *.class"build/**/*.class" 
 "derby.log" 
+derby.log 
