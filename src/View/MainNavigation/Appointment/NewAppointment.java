@@ -5,6 +5,9 @@ import View.MainNavigation.MainNavigation;
 import Model.Appointment;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
+import java.time.LocalDate;
+import java.time.DayOfWeek;
+
 /**
  *
  * @author USER-PC
@@ -20,12 +23,15 @@ public class NewAppointment extends javax.swing.JFrame {
     public NewAppointment() {
         initComponents();
         
+        
+
+        
         //seed data:
-        appointments.add(new Appointment("a1234","s1234", "c1234", java.sql.Date.valueOf("2025-07-18"), java.sql.Time.valueOf("09:30:00"), "pending"));
-appointments.add(new Appointment("a1235","s1235", "c1235", java.sql.Date.valueOf("2025-07-19"), java.sql.Time.valueOf("10:00:00"), "confirmed"));
-appointments.add(new Appointment("a1236","s1236", "c1236", java.sql.Date.valueOf("2025-07-20"), java.sql.Time.valueOf("11:30:00"), "cancelled"));
-appointments.add(new Appointment("a1237","s1237", "c1237", java.sql.Date.valueOf("2025-07-21"), java.sql.Time.valueOf("12:45:00"), "confirmed"));
-appointments.add(new Appointment("a1238","s1238", "c1235", java.sql.Date.valueOf("2025-07-22"), java.sql.Time.valueOf("10:15:00"), "pending"));
+        appointments.add(new Appointment("a1234","s1234", "c1234", "Monday", java.sql.Time.valueOf("09:30:00"), "pending"));
+        appointments.add(new Appointment("a1235","s1235", "c1235", "Monday", java.sql.Time.valueOf("10:00:00"), "confirmed"));
+        appointments.add(new Appointment("a1236","s1236", "c1236", "Tuesday", java.sql.Time.valueOf("11:30:00"), "cancelled"));
+        appointments.add(new Appointment("a1237","s1237", "c1237", "Wednesday", java.sql.Time.valueOf("12:45:00"), "confirmed"));
+        appointments.add(new Appointment("a1238","s1238", "c1235", "Friday", java.sql.Time.valueOf("10:15:00"), "pending"));
 
 loadAppointments(); // Refresh the table after seeding
 
@@ -35,7 +41,8 @@ loadAppointments(); // Refresh the table after seeding
 }));
 
 cbTime.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
-    "09:00", "10:00", "11:00", "12:00", "14:00", "15:00"
+    "08:00:00", "09:00:00", "10:00:00", "11:00:00", "12:00:00",
+    "13:00:00", "14:00:00", "15:00:00"
 }));
 
 cbDate.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
@@ -266,13 +273,16 @@ cbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
         this.dispose();
     }//GEN-LAST:event_ReturnMain
 
+   
+    
+    
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        String appointmentId = tfAppointmentName.getText().trim(); // use a unique field for appointment ID if available
+       String appointmentId = tfAppointmentName.getText().trim();
     String studentId = tfAppointmentID.getText().trim();
     String counselorId = cbAppointmentCounsellor.getSelectedItem().toString();
-    String dateText = cbDate.getSelectedItem().toString(); // e.g. "2025-07-18"
-    String timeText = cbTime.getSelectedItem().toString(); // e.g. "09:30:00"
-    String status = cbStatus.getSelectedItem().toString(); // e.g. "pending", "confirmed"
+    String dateText = cbDate.getSelectedItem().toString(); // e.g. "Monday"
+    String timeText = cbTime.getSelectedItem().toString(); // e.g. "09:00:00"
+    String status = cbStatus.getSelectedItem().toString();
 
     if (appointmentId.isEmpty() || studentId.isEmpty() || counselorId.isEmpty() ||
         dateText.isEmpty() || timeText.isEmpty() || status.isEmpty()) {
@@ -281,16 +291,17 @@ cbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
     }
 
     try {
-        java.sql.Date date = java.sql.Date.valueOf(dateText); // must be yyyy-MM-dd
-        java.sql.Time time = java.sql.Time.valueOf(timeText); // must be HH:mm:ss
+        java.sql.Time time = java.sql.Time.valueOf(timeText); // ✅ Convert string to Time
 
-        Appointment newAppt = new Appointment(appointmentId, studentId, counselorId, date, time, status.toLowerCase());
+        Appointment newAppt = new Appointment(appointmentId, studentId, counselorId, dateText, time, status.toLowerCase());
         appointments.add(newAppt);
         loadAppointments();
         JOptionPane.showMessageDialog(this, "Appointment added successfully.");
     } catch (IllegalArgumentException e) {
-        JOptionPane.showMessageDialog(this, "Invalid date or time format.\nDate must be yyyy-MM-dd\nTime must be HH:mm:ss");
+        JOptionPane.showMessageDialog(this, "Invalid time format. Please use HH:mm:ss");
     }
+    
+
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed

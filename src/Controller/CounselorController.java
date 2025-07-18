@@ -27,13 +27,15 @@ public class CounselorController {
     }
 
   
-
+      //method to add counselor (based on fields created in counselor class (in Model)).
     public void addCounselor(String id, String name, String surname, String email, String phone,
                              String password, String specialisation, String available) {
         
         try {
             Counselor c = new Counselor(id, name, surname, email, phone, password, specialisation, available);
+            //adds to list
             counselorList.add(c);
+            //adds to database
             dao.addCounselor(c);
         } catch (Exception e) {
             e.printStackTrace();
@@ -42,6 +44,7 @@ public class CounselorController {
 
     public void updateCounselor(String id, String name, String surname, String email, String phone,
                                 String password, String specialisation, String available) {
+        //To update Arraylist
          for (int i = 0; i < counselorList.size(); i++) {
             if (counselorList.get(i).getId().equals(id)) {
                 Counselor updated = new Counselor(id, name, surname, email, phone, password, specialisation, available);
@@ -49,7 +52,7 @@ public class CounselorController {
                 break;
             }
         }
-        
+        //to update database
         try {
             Counselor c = new Counselor(id, name, surname, email, phone, password, specialisation, available);
             dao.updateCounselor(c);
@@ -59,13 +62,14 @@ public class CounselorController {
     }
 
     public void deleteCounselor(String id) {
+        //list
         for (int i = 0; i < counselorList.size(); i++) {
         if (counselorList.get(i).getId().equals(id)) {
             counselorList.remove(i);
             break;
         }
     }
-        
+        //database
 //        counselorList.removeIf(c -> c.getId().equals(id));
 //        try {
 //            dao.deleteCounselor(id);

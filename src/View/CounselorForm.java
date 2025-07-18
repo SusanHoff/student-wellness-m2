@@ -33,6 +33,9 @@ public class CounselorForm extends javax.swing.JFrame {
         
        loadCounselors();
        
+       
+       
+       
        // Populate form fields when a table row is clicked
         tblCounselors.addMouseListener(new java.awt.event.MouseAdapter() {
         public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -67,6 +70,7 @@ public class CounselorForm extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     
+    //To populate jTable in Form View
         private void loadCounselors() {
         DefaultTableModel model = (DefaultTableModel) tblCounselors.getModel();
         model.setRowCount(0); // Clear previous data
@@ -365,6 +369,7 @@ public class CounselorForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private boolean validateInput(boolean checkDuplicateId, boolean requirePassword) {
+        //get text from fields
     String id = txtId.getText().trim();
     String name = txtName.getText().trim();
     String surname = txtSurname.getText().trim();
@@ -372,7 +377,7 @@ public class CounselorForm extends javax.swing.JFrame {
     String phone = txtPhone.getText().trim();
     String password = new String(txtPassword.getPassword()).trim();
 
-    // Empty fields - except password and id for update
+    // Checks for empty fields - except password and id for update
     if (id.isEmpty() || name.isEmpty() || surname.isEmpty() || email.isEmpty()
         || phone.isEmpty() || (requirePassword && password.isEmpty())) {
     JOptionPane.showMessageDialog(this, "Please fill in all required fields.");
